@@ -178,6 +178,8 @@ int main(int argc, char **argv)
     int c;
     char *cp;
     short pt, ver, dpi[2], align, num_files;
+    char ital;
+    short bold;
     int resource_table_len, non_resident_name_len, resident_name_len;
     unsigned short resource_table_off, resident_name_off, module_ref_off, non_resident_name_off, fontdir_off;
     unsigned font_off;
@@ -215,6 +217,10 @@ int main(int argc, char **argv)
         fseek(fp, 0x44, SEEK_SET);
         fread(&pt, sizeof(short), 1, fp);
         fread(dpi, sizeof(short), 2, fp);
+        fseek(fp, 0x50, SEEK_SET); /* dfItalic */
+        fread(&ital, sizeof(char), 1, fp);
+        fseek(fp, 0x53, SEEK_SET); /* dfWeight */
+        fread(&bold, sizeof(short), 1, fp);
         fseek(fp, 0x69, SEEK_SET);
         fread(&off, sizeof(long), 1, fp);
         fseek(fp, off, SEEK_SET);
@@ -222,12 +228,20 @@ int main(int argc, char **argv)
         while((c = fgetc(fp)) != 0 && c != EOF)
             *cp++ = c;
         *cp = '\0';
-        fprintf(stderr, "%s %d pts %dx%d dpi\n", name, pt, dpi[0], dpi[1]);
+        fprintf(stderr, "%s %d pts %dx%d dpi%s%s\n", name, pt, dpi[0], dpi[1], bold == 700 ? " Bold" : "", ital ? " Italic" : "");
         fclose(fp);
         /* fontdir entries for version 3 fonts are the same as for version 2 */
         fontdir_len += 0x74 + strlen(name) + 1;
         if(i == 0) {
-            sprintf(non_resident_name, "FONTRES 100,%d,%d : %s %d", dpi[0], dpi[1], name, pt);
+            char tmpname[200];
+            strcpy(tmpname, name);
+            if (bold == 700) {
+                strcat(tmpname, " Bold");
+            }
+            if (ital) {
+                strcat(tmpname, " Italic");
+            }
+            sprintf(non_resident_name, "FONTRES 100,%d,%d : %s %d", dpi[0], dpi[1], tmpname, pt);
             strcpy(resident_name, name);
         } else {
             sprintf(non_resident_name + strlen(non_resident_name), ",%d", pt);
