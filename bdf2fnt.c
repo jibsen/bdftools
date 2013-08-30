@@ -78,6 +78,7 @@ typedef struct {
   int bbox[4] ;
   int ascent ;
   int descent ;
+  int capheight ;
   int pixels ;
   int defaultch ;
   int firstch ;
@@ -177,6 +178,11 @@ int bdfascent(char *line, FILE *in, Font *fnt)
 int bdfdescent(char *line, FILE *in, Font *fnt)
 {
   return sscanf(line, "%d\n", &(fnt->descent)) == 1 ;
+}
+
+int bdfcapheight(char *line, FILE *in, Font *fnt)
+{
+  return sscanf(line, "%d\n", &(fnt->capheight)) == 1 ;
 }
 
 int bdfdefault(char *line, FILE *in, Font *fnt)
@@ -314,6 +320,7 @@ struct {
   { "STARTPROPERTIES", bdfignore },
   { "FONT_ASCENT", bdfascent },
   { "FONT_DESCENT", bdfdescent },
+  { "CAP_HEIGHT", bdfcapheight },
   { "PIXEL_SIZE", bdfpixels },
   { "DEFAULT_CHAR", bdfdefault },
   { "COPYRIGHT", bdfcopyright },
@@ -449,7 +456,7 @@ int writefnt(FILE *out, Font *fnt, int version, char *name, struct writefntopt *
   finfo->dfHorizRes = fnt->xlfd[9] ? atoi(fnt->xlfd[9]) : fnt->xlfd[8] ? atoi(fnt->xlfd[8]) : 96 ;
 #endif
   finfo->dfAscent = fnt->ascent ;
-  finfo->dfInternalLeading = 1 ;
+  finfo->dfInternalLeading = fnt->capheight ? fnt->ascent - fnt->capheight : 1;
   finfo->dfExternalLeading = 0 ;
   finfo->dfItalic = (xlfd = fnt->xlfd[3]) &&
     (strcmp(xlfd, "i") == 0 || strcmp(xlfd, "o") == 0) ;
