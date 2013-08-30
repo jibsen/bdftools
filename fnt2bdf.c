@@ -360,14 +360,14 @@ static int dump_bdf( fnt_fontS* cpe_font_struct, unsigned char* file_buffer)
 
 	fprintf(fp, "STARTCHAR %d\n", ic);
 	fprintf(fp, "ENCODING %d\n",   l_fchar);
-	fprintf(fp, "SWIDTH    %d    %d\n",
+	fprintf(fp, "SWIDTH %d %d\n",
 		cpe_font_struct->dfCharTable[ic].charWidth*1000,
 		0);
 
-	fprintf(fp, "DWIDTH    %d    %d\n",
+	fprintf(fp, "DWIDTH %d %d\n",
 		cpe_font_struct->dfCharTable[ic].charWidth, 0);
 
-	fprintf(fp, "BBX  %d  %d  %d   %d\n",
+	fprintf(fp, "BBX %d %d %d %d\n",
 		cpe_font_struct->dfCharTable[ic].charWidth, l_hgt, 0,
 		l_ascent - l_hgt);
 
@@ -444,7 +444,7 @@ long	l_nameoffset = return_data_value(dfLong, &cpe_font_struct->hdr.fi.dfFace);
 int	l_cellheight = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfPixHeight);
 int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
 
-    fprintf(fs, "STARTFONT   2.1\n");
+    fprintf(fs, "STARTFONT 2.1\n");
 
     /* Compose font name */
 
@@ -527,17 +527,17 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
     }
     else return ERROR_DATA;
 
-    fprintf(fs, "SIZE  %d  %d   %d\n",
+    fprintf(fs, "SIZE %d %d %d\n",
         return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfPoints ),
 	return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfHorizRes),
 	return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfVertRes));   /* dfVertRes[2] */
 
-    fprintf(fs, "FONTBOUNDINGBOX %d  %d  %d  %d\n",
+    fprintf(fs, "FONTBOUNDINGBOX %d %d %d %d\n",
 	return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfMaxWidth),
 	return_data_value(dfChar, &cpe_font_struct->hdr.fi.dfPixHeight),
    	0, l_ascent - l_cellheight );
 
-    fprintf(fs, "STARTPROPERTIES  4\n");
+    fprintf(fs, "STARTPROPERTIES 4\n");
 
     fprintf(fs, "FONT_ASCENT %d\n", l_ascent );                       /*  dfAscent[2] */
     fprintf(fs, "FONT_DESCENT %d\n", l_cellheight - l_ascent );
@@ -547,7 +547,7 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
 
     fprintf(fs, "ENDPROPERTIES\n");
 
-    fprintf(fs, "CHARS  %d\n",  l_len);
+    fprintf(fs, "CHARS %d\n", l_len);
     return 0;
 }
 
