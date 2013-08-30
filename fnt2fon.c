@@ -179,7 +179,8 @@ int main(int argc, char **argv)
     char *cp;
     short pt, ver, dpi[2], align, num_files;
     int resource_table_len, non_resident_name_len, resident_name_len;
-    unsigned short resource_table_off, resident_name_off, module_ref_off, non_resident_name_off, fontdir_off, font_off;
+    unsigned short resource_table_off, resident_name_off, module_ref_off, non_resident_name_off, fontdir_off;
+    unsigned font_off;
     char resident_name[200] = "";
     int fontdir_len = 2;
     char non_resident_name[200] = "";
