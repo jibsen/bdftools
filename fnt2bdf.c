@@ -543,7 +543,7 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
     fprintf(fs, "FONT_DESCENT %d\n", l_cellheight - l_ascent );
     fprintf(fs, "CAP_HEIGHT %d\n", l_ascent -
                                    return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfInternalLeading));
-    fprintf(fs, "DEFAULT_CHAR %d\n", return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfDefaultChar));
+    fprintf(fs, "DEFAULT_CHAR %d\n", return_data_value(dfChar, &cpe_font_struct->hdr.fi.dfDefaultChar));
 
     fprintf(fs, "ENDPROPERTIES\n");
 
