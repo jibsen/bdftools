@@ -443,6 +443,9 @@ int     l_len = l_lchar - l_fchar + 1;
 long	l_nameoffset = return_data_value(dfLong, &cpe_font_struct->hdr.fi.dfFace);
 int	l_cellheight = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfPixHeight);
 int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
+int     point_size = 10 * return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfPoints );
+char*   lpFace = (char*)(file_buffer + l_nameoffset);
+short   tmWeight = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfWeight);
 
     fprintf(fs, "STARTFONT 2.1\n");
 
@@ -451,9 +454,7 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
     if( l_nameoffset &&
 	l_nameoffset < return_data_value(dfLong, &cpe_font_struct->hdr.dfSize) )
     {
-      int     point_size;
-      char*   lpFace = (char*)(file_buffer + l_nameoffset), *lpChar;
-      short   tmWeight = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfWeight);
+      char *lpChar;
 
       while((lpChar = strchr(lpFace, '-')) )
 	    *lpChar = ' ';
@@ -483,8 +484,6 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
       else fputs("normal--", fs);	/* still can be -sans */
 
       /* y extents */
-
-      point_size = 10 * return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfPoints );
 
       fprintf(fs, "%d-%d-%d-%d-",l_cellheight, point_size,
             return_data_value (dfShort, &cpe_font_struct->hdr.fi.dfHorizRes),
@@ -537,9 +536,49 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
 	return_data_value(dfChar, &cpe_font_struct->hdr.fi.dfPixHeight),
    	0, l_ascent - l_cellheight );
 
-    fprintf(fs, "STARTPROPERTIES 5\n");
+    fprintf(fs, "STARTPROPERTIES 16\n");
 
-    fprintf(fs, "FONT_ASCENT %d\n", l_ascent );                       /*  dfAscent[2] */
+    fprintf(fs, "FACE_NAME \"%s\"\n", lpFace);
+    fprintf(fs, "FAMILY_NAME \"%s\"\n", lpFace);
+    fputs("WEIGHT_NAME \"", fs);
+    if (tmWeight == 0) {
+        fputs("Medium", fs);
+    }
+    else if (tmWeight <= FW_LIGHT) {
+        fputs("Light", fs);
+    }
+    else if (tmWeight <= FW_MEDIUM) {
+        fputs("Medium", fs);
+    }
+    else if (tmWeight <= FW_DEMIBOLD) {
+        fputs("Demibold", fs);
+    }
+    else if (tmWeight <= FW_BOLD) {
+        fputs("Bold", fs);
+    }
+    else {
+        fputs("Black", fs);
+    }
+    fputs("\"\n", fs);
+
+    fprintf(fs, "SLANT \"%c\"\n", cpe_font_struct->hdr.fi.dfItalic ? 'I' : 'R');
+    fprintf(fs, "PIXEL_SIZE %d\n", l_cellheight);
+    fprintf(fs, "POINT_SIZE %d\n", point_size);
+    fprintf(fs, "RESOLUTION_X %d\n", return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfHorizRes));
+    fprintf(fs, "RESOLUTION_Y %d\n", return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfVertRes));
+
+    if (return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfPixWidth)) {
+        fprintf(fs, "SPACING \"C\"\n");
+    }
+    else {
+        fprintf(fs, "SPACING \"P\"\n");
+    }
+
+    /* these are hardcoded, since they do not corespond to the actual encoding */
+    fputs("CHARSET_REGISTRY \"ISO8859\"\n", fs);
+    fputs("CHARSET_ENCODING \"1\"\n", fs);
+
+    fprintf(fs, "FONT_ASCENT %d\n", l_ascent );
     fprintf(fs, "FONT_DESCENT %d\n", l_cellheight - l_ascent );
     fprintf(fs, "CAP_HEIGHT %d\n", l_ascent -
                                    return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfInternalLeading));
