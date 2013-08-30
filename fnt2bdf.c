@@ -537,13 +537,24 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
 	return_data_value(dfChar, &cpe_font_struct->hdr.fi.dfPixHeight),
    	0, l_ascent - l_cellheight );
 
-    fprintf(fs, "STARTPROPERTIES 4\n");
+    fprintf(fs, "STARTPROPERTIES 5\n");
 
     fprintf(fs, "FONT_ASCENT %d\n", l_ascent );                       /*  dfAscent[2] */
     fprintf(fs, "FONT_DESCENT %d\n", l_cellheight - l_ascent );
     fprintf(fs, "CAP_HEIGHT %d\n", l_ascent -
                                    return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfInternalLeading));
     fprintf(fs, "DEFAULT_CHAR %d\n", return_data_value(dfChar, &cpe_font_struct->hdr.fi.dfDefaultChar));
+
+    {
+        char *p = cpe_font_struct->hdr.dfCopyright;
+        size_t i;
+
+        /* strip trailing spaces */
+        for (i = strlen(p); i && p[i - 1] == ' '; --i) {
+            p[i - 1] = '\0';
+        }
+    }
+    fprintf(fs, "COPYRIGHT \"%s\"\n", cpe_font_struct->hdr.dfCopyright);
 
     fprintf(fs, "ENDPROPERTIES\n");
 
