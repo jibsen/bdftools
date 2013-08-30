@@ -20,8 +20,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include "config.h"
 #include "wine/port.h"
+#endif
 
 #ifdef HAVE_SYS_PARAM_H
 # include <sys/param.h>
@@ -39,8 +43,10 @@
 # include <io.h>
 #endif
 
+#ifndef _WIN32
 #include "windef.h"
 #include "wingdi.h"
+#endif
 
 enum data_types {dfChar, dfShort, dfLong, dfString};
 
@@ -508,7 +514,7 @@ int	l_ascent = return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfAscent);
 	case ARABIC_CHARSET: 	fputs("microsoft-cp1256\n", fs); break;
 	case BALTIC_CHARSET: 	fputs("microsoft-cp1257\n", fs); break;
 	case RUSSIAN_CHARSET: 	fputs("microsoft-cp1251\n", fs); break;
-	case EE_CHARSET: 	fputs("microsoft-cp1250\n", fs); break;
+	case EASTEUROPE_CHARSET: 	fputs("microsoft-cp1250\n", fs); break;
 	case SYMBOL_CHARSET: 	fputs("microsoft-symbol\n", fs); break;
 	case SHIFTJIS_CHARSET: 	fputs("jisx0208.1983-0\n", fs); break;
 	case DEFAULT_CHARSET:	fputs("iso8859-1\n", fs); break;

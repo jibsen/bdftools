@@ -18,8 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include "config.h"
 #include "wine/port.h"
+#endif
 
 #include <signal.h>
 #include <stdio.h>
@@ -34,7 +38,9 @@
 # include <io.h>
 #endif
 
+#ifndef _WIN32
 #include "windef.h"
+#endif
 #include "pshpack1.h"
 
 typedef struct
