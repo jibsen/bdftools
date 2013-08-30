@@ -467,7 +467,7 @@ int writefnt(FILE *out, Font *fnt, int version, char *name, struct writefntopt *
      strcmp(xlfd, "bold") == 0 ? 700 :
      strcmp(xlfd, "light") == 0 ? 200 : 400) : 400 ;
   finfo->dfCharSet = !options->oem &&
-    (xlfd = fnt->xlfd[12]) && strcmp(xlfd, "iso8859") == 0 ?
+    (xlfd = fnt->xlfd[12]) && (strcmp(xlfd, "iso8859") == 0 || strcmp(xlfd, "microsoft") == 0) ?
     DF_CHARSET_ANSI : DF_CHARSET_OEM ;
   finfo->dfPixWidth = avgwidth == maxwidth ? maxwidth : 0 ;
   finfo->dfPixHeight = h ;
