@@ -447,7 +447,7 @@ int writefnt(FILE *out, Font *fnt, int version, char *name, struct writefntopt *
     ? fnt->copyright
     : "Converted by bd2fnt, (C) AJCD 1995 (C) 2009 grischka") ;
   finfo->dfType = PF_RASTER_TYPE ;
-  finfo->dfPoints = fnt->xlfd[6] ? atoi(fnt->xlfd[6]) : fnt->ascent ;   /* well, it's near enough */
+  finfo->dfPoints = fnt->xlfd[7] ? atoi(fnt->xlfd[7]) / 10 : fnt->ascent ;
 #ifdef VGA_RESOLUTION
   finfo->dfVertRes = 96 ; /* Standard VGA */
   finfo->dfHorizRes = 96 ; /* Standard VGA */
