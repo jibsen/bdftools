@@ -389,7 +389,7 @@ int writefnt(FILE *out, Font *fnt, int version, char *name, struct writefntopt *
   FontChar dc = { 3, 0, {2, 8, 1, -1}, 8, db };
 */
 
-  f = 129;
+  f = 31;
 
   i = fnt->defaultch + fnt->firstch;
   if ( i < fnt->firstch || i > fnt->lastch)
