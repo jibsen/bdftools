@@ -469,8 +469,8 @@ int writefnt(FILE *out, Font *fnt, int version, char *name, struct writefntopt *
   finfo->dfCharSet = !options->oem &&
     (xlfd = fnt->xlfd[12]) && strcmp(xlfd, "iso8859") == 0 ?
     DF_CHARSET_ANSI : DF_CHARSET_OEM ;
-  finfo->dfPixWidth = 0;
-  finfo->dfPixHeight = h;
+  finfo->dfPixWidth = avgwidth == maxwidth ? maxwidth : 0 ;
+  finfo->dfPixHeight = h ;
   finfo->dfPitchAndFamily = samewidth ? FF_MODERN : FF_SWISS | FF_VARIABLE ;
   finfo->dfAvgWidth = avgwidth ;
   finfo->dfMaxWidth = maxwidth ;
