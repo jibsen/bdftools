@@ -77,146 +77,143 @@ typedef DWORD FARPROC16;
 #pragma pack(push,2)
 
 typedef struct _IMAGE_DOS_HEADER {
-        WORD e_magic;
-        WORD e_cblp;
-        WORD e_cp;
-        WORD e_crlc;
-        WORD e_cparhdr;
-        WORD e_minalloc;
-        WORD e_maxalloc;
-        WORD e_ss;
-        WORD e_sp;
-        WORD e_csum;
-        WORD e_ip;
-        WORD e_cs;
-        WORD e_lfarlc;
-        WORD e_ovno;
-        WORD e_res[4];
-        WORD e_oemid;
-        WORD e_oeminfo;
-        WORD e_res2[10];
-        LONG e_lfanew;
-} IMAGE_DOS_HEADER,*PIMAGE_DOS_HEADER;
+	WORD e_magic;
+	WORD e_cblp;
+	WORD e_cp;
+	WORD e_crlc;
+	WORD e_cparhdr;
+	WORD e_minalloc;
+	WORD e_maxalloc;
+	WORD e_ss;
+	WORD e_sp;
+	WORD e_csum;
+	WORD e_ip;
+	WORD e_cs;
+	WORD e_lfarlc;
+	WORD e_ovno;
+	WORD e_res[4];
+	WORD e_oemid;
+	WORD e_oeminfo;
+	WORD e_res2[10];
+	LONG e_lfanew;
+} IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;
 
 typedef struct _IMAGE_OS2_HEADER {
-        WORD ne_magic;
-        CHAR ne_ver;
-        CHAR ne_rev;
-        WORD ne_enttab;
-        WORD ne_cbenttab;
-        LONG ne_crc;
-        WORD ne_flags;
-        WORD ne_autodata;
-        WORD ne_heap;
-        WORD ne_stack;
-        LONG ne_csip;
-        LONG ne_sssp;
-        WORD ne_cseg;
-        WORD ne_cmod;
-        WORD ne_cbnrestab;
-        WORD ne_segtab;
-        WORD ne_rsrctab;
-        WORD ne_restab;
-        WORD ne_modtab;
-        WORD ne_imptab;
-        LONG ne_nrestab;
-        WORD ne_cmovent;
-        WORD ne_align;
-        WORD ne_cres;
-        BYTE ne_exetyp;
-        BYTE ne_flagsothers;
-        WORD ne_pretthunks;
-        WORD ne_psegrefbytes;
-        WORD ne_swaparea;
-        WORD ne_expver;
-} IMAGE_OS2_HEADER,*PIMAGE_OS2_HEADER;
+	WORD ne_magic;
+	CHAR ne_ver;
+	CHAR ne_rev;
+	WORD ne_enttab;
+	WORD ne_cbenttab;
+	LONG ne_crc;
+	WORD ne_flags;
+	WORD ne_autodata;
+	WORD ne_heap;
+	WORD ne_stack;
+	LONG ne_csip;
+	LONG ne_sssp;
+	WORD ne_cseg;
+	WORD ne_cmod;
+	WORD ne_cbnrestab;
+	WORD ne_segtab;
+	WORD ne_rsrctab;
+	WORD ne_restab;
+	WORD ne_modtab;
+	WORD ne_imptab;
+	LONG ne_nrestab;
+	WORD ne_cmovent;
+	WORD ne_align;
+	WORD ne_cres;
+	BYTE ne_exetyp;
+	BYTE ne_flagsothers;
+	WORD ne_pretthunks;
+	WORD ne_psegrefbytes;
+	WORD ne_swaparea;
+	WORD ne_expver;
+} IMAGE_OS2_HEADER, *PIMAGE_OS2_HEADER;
 
 /*
  * Resource table structures.
  */
-typedef struct
-{
-    WORD     offset;
-    WORD     length;
-    WORD     flags;
-    WORD     id;
-    HANDLE16 handle;
-    WORD     usage;
+typedef struct {
+	WORD offset;
+	WORD length;
+	WORD flags;
+	WORD id;
+	HANDLE16 handle;
+	WORD usage;
 } NE_NAMEINFO;
 
-typedef struct
-{
-    WORD        type_id;   /* Type identifier */
-    WORD        count;     /* Number of resources of this type */
-    FARPROC16   resloader; /* SetResourceHandler() */
-    /*
-     * Name info array.
-     */
+typedef struct {
+	WORD type_id;          /* Type identifier */
+	WORD count;            /* Number of resources of this type */
+	FARPROC16 resloader;   /* SetResourceHandler() */
+	/*
+	 * Name info array.
+	 */
 } NE_TYPEINFO;
 
 #pragma pack(pop)
 
 #pragma pack(push,1)
 
-typedef struct
-{
-    INT16 dfType;
-    INT16 dfPoints;
-    INT16 dfVertRes;
-    INT16 dfHorizRes;
-    INT16 dfAscent;
-    INT16 dfInternalLeading;
-    INT16 dfExternalLeading;
-    CHAR  dfItalic;
-    CHAR  dfUnderline;
-    CHAR  dfStrikeOut;
-    INT16 dfWeight;
-    BYTE  dfCharSet;
-    INT16 dfPixWidth;
-    INT16 dfPixHeight;
-    CHAR  dfPitchAndFamily;
-    INT16 dfAvgWidth;
-    INT16 dfMaxWidth;
-    CHAR  dfFirstChar;
-    CHAR  dfLastChar;
-    CHAR  dfDefaultChar;
-    CHAR  dfBreakChar;
-    INT16 dfWidthBytes;
-    LONG  dfDevice;
-    LONG  dfFace;
-    LONG  dfBitsPointer;
-    LONG  dfBitsOffset;
-    CHAR  dfReserved;
-    /* Fields, introduced for Windows 3.x fonts */
-    LONG  dfFlags;
-    INT16 dfAspace;
-    INT16 dfBspace;
-    INT16 dfCspace;
-    LONG  dfColorPointer;
-    LONG  dfReserved1[4];
+typedef struct {
+	INT16 dfType;
+	INT16 dfPoints;
+	INT16 dfVertRes;
+	INT16 dfHorizRes;
+	INT16 dfAscent;
+	INT16 dfInternalLeading;
+	INT16 dfExternalLeading;
+	CHAR dfItalic;
+	CHAR dfUnderline;
+	CHAR dfStrikeOut;
+	INT16 dfWeight;
+	BYTE dfCharSet;
+	INT16 dfPixWidth;
+	INT16 dfPixHeight;
+	CHAR dfPitchAndFamily;
+	INT16 dfAvgWidth;
+	INT16 dfMaxWidth;
+	CHAR dfFirstChar;
+	CHAR dfLastChar;
+	CHAR dfDefaultChar;
+	CHAR dfBreakChar;
+	INT16 dfWidthBytes;
+	LONG dfDevice;
+	LONG dfFace;
+	LONG dfBitsPointer;
+	LONG dfBitsOffset;
+	CHAR dfReserved;
+	/* Fields, introduced for Windows 3.x fonts */
+	LONG dfFlags;
+	INT16 dfAspace;
+	INT16 dfBspace;
+	INT16 dfCspace;
+	LONG dfColorPointer;
+	LONG dfReserved1[4];
 } FONTINFO, *LPFONTINFO;
 
 typedef struct tagVECTORGLYPHENTRY {
-    short rgeOffset;   /* offset to vectors relative to segment start */
-    short rgeWidth;    /* width of character in pixels */
+	short rgeOffset;   /* offset to vectors relative to segment start */
+	short rgeWidth;    /* width of character in pixels */
 } VECTORGLYPHENTRY;
 
 typedef struct tagFONTFILEHEADER {
-    short dfVersion;
-    long  dfSize;
-    char  dfCopyright[60];
-    FONTINFO dffi;
+	short dfVersion;
+	long dfSize;
+	char dfCopyright[60];
+	FONTINFO dffi;
 } FONTFILEHEADER;
 
 typedef struct tabRASTERGLYPHENTRY {
-  short rgeWidth;
-  short rgeOffset;
-} RASTERGLYPHENTRY ;
+	short rgeWidth;
+	short rgeOffset;
+} RASTERGLYPHENTRY;
 
 typedef struct tabRASTERGLYPHENTRY3 {
-  short rgeWidth;
-  long rgeOffset;
-} RASTERGLYPHENTRY3 ;
+	short rgeWidth;
+	long rgeOffset;
+} RASTERGLYPHENTRY3;
 
 #pragma pack(pop)
 
