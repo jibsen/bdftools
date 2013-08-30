@@ -17,7 +17,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <fcntl.h>
-#ifndef unix
+#ifdef HAVE_IO_H
 #include <io.h>
 #endif
 #include "fontstruc.h"
