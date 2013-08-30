@@ -252,10 +252,7 @@ int main(int argc, char **argv)
             }
         }
     }
-    if(dpi[0] <= 108)
-        strcat(non_resident_name, " (VGA res)");
-    else
-        strcat(non_resident_name, " (8514 res)");
+
     non_resident_name_len = strlen(non_resident_name) + 4;
 
     /* shift count + fontdir entry + num_files of font + nul type + \007FONTDIR */
