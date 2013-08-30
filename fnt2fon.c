@@ -246,7 +246,16 @@ int main(int argc, char **argv)
 				strcat(tmpname, " Italic");
 			}
 			sprintf(non_resident_name, "FONTRES 100,%d,%d : %s %d", dpi[0], dpi[1], tmpname, pt);
-			strcpy(resident_name, name);
+			/* copy up to 8 uppercased characters from name to resident_name */
+			{
+				int j, k;
+				for (j = 0, k = 0; j < 8 && name[k]; k++) {
+					if (isalnum(name[k])) {
+						resident_name[j++] = toupper(name[k]);
+					}
+				}
+				resident_name[j] = '\0';
+			}
 			lastpt = pt;
 		}
 		else {
