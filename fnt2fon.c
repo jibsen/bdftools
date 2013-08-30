@@ -178,6 +178,7 @@ int main(int argc, char **argv)
     int c;
     char *cp;
     short pt, ver, dpi[2], align, num_files;
+    short lastpt;
     char ital;
     short bold;
     int resource_table_len, non_resident_name_len, resident_name_len;
@@ -243,8 +244,12 @@ int main(int argc, char **argv)
             }
             sprintf(non_resident_name, "FONTRES 100,%d,%d : %s %d", dpi[0], dpi[1], tmpname, pt);
             strcpy(resident_name, name);
+            lastpt = pt;
         } else {
-            sprintf(non_resident_name + strlen(non_resident_name), ",%d", pt);
+            if (pt != lastpt) {
+                sprintf(non_resident_name + strlen(non_resident_name), ",%d", pt);
+                lastpt = pt;
+            }
         }
     }
     if(dpi[0] <= 108)
