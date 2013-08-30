@@ -278,6 +278,10 @@ int main(int argc, char **argv)
 
     output_file = argv[argc - 1];
     ofp = fopen(output_file, "wb");
+    if(!ofp) {
+        fprintf(stderr, "error: unable to open %s for writing: %s\n", output_file, strerror(errno));
+        exit(1);
+    }
 
     fwrite(MZ_hdr, sizeof(MZ_hdr), 1, ofp);
     fwrite(&NE_hdr, sizeof(NE_hdr), 1, ofp);
