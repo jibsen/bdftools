@@ -7,6 +7,9 @@
    Modified for variable-width fonts
    Copyright (C) 2009 grischka@users.sf.net
 
+   Modified for converting the Dina font
+   Copyright (C) 2013 Joergen Ibsen
+
    Released under the terms of GNU General Public License
    (GPL) version 2 (See: http://www.fsf.org/licenses/gpl.html)
  */

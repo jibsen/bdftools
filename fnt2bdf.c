@@ -5,6 +5,9 @@
  *
  * Copyright 1994-1996 Kevin Carothers and Alex Korobka
  *
+ * Modified for converting the Dina font
+ * Copyright 2013 Joergen Ibsen
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
