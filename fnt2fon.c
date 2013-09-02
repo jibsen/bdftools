@@ -246,16 +246,6 @@ int main(int argc, char **argv)
 				strcat(tmpname, " Italic");
 			}
 			sprintf(non_resident_name, "FONTRES 100,%d,%d : %s %d", dpi[0], dpi[1], tmpname, pt);
-			/* copy up to 8 uppercased characters from name to resident_name */
-			{
-				int j, k;
-				for (j = 0, k = 0; j < 8 && name[k]; k++) {
-					if (isalnum(name[k])) {
-						resident_name[j++] = toupper(name[k]);
-					}
-				}
-				resident_name[j] = '\0';
-			}
 			lastpt = pt;
 		}
 		else {
@@ -267,6 +257,14 @@ int main(int argc, char **argv)
 	}
 
 	non_resident_name_len = strlen(non_resident_name) + 4;
+
+	output_file = argv[argc - 1];
+
+	/* copy up to 8 uppercased characters from output name to resident_name */
+	for (i = 0; i < 8 && isalnum(output_file[i]); i++) {
+		resident_name[i] = toupper(output_file[i]);
+	}
+	resident_name[i] = '\0';
 
 	/* shift count + fontdir entry + num_files of font + nul type + \007FONTDIR */
 	resource_table_len = sizeof(align) + sizeof("FONTDIR") +
@@ -306,7 +304,6 @@ int main(int argc, char **argv)
 	signal(SIGHUP, exit_on_signal);
 #endif
 
-	output_file = argv[argc - 1];
 	ofp = fopen(output_file, "wb");
 	if (!ofp) {
 		fprintf(stderr, "error: unable to open %s for writing: %s\n", output_file, strerror(errno));
