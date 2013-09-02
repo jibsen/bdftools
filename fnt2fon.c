@@ -326,7 +326,7 @@ int main(int argc, char **argv)
 
 	rc_name.offset = fontdir_off >> 4;
 	rc_name.length = (fontdir_len + 15) >> 4;
-	rc_name.flags = NE_SEGFLAGS_MOVEABLE | NE_SEGFLAGS_PRELOAD;
+	rc_name.flags = 0xc00 | NE_SEGFLAGS_MOVEABLE | NE_SEGFLAGS_PRELOAD;
 	rc_name.id = resident_name_off - sizeof("FONTDIR") - NE_hdr.ne_rsrctab;
 	rc_name.handle = 0;
 	rc_name.usage = 0;
@@ -342,7 +342,7 @@ int main(int argc, char **argv)
 
 		rc_name.offset = font_off >> 4;
 		rc_name.length = len >> 4;
-		rc_name.flags = NE_SEGFLAGS_MOVEABLE | NE_SEGFLAGS_SHAREABLE | NE_SEGFLAGS_DISCARDABLE;
+		rc_name.flags = 0xc00 | NE_SEGFLAGS_MOVEABLE | NE_SEGFLAGS_SHAREABLE | NE_SEGFLAGS_DISCARDABLE;
 		rc_name.id = res;
 		rc_name.handle = 0;
 		rc_name.usage = 0;
