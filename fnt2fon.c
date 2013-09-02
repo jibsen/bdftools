@@ -190,7 +190,7 @@ int main(int argc, char **argv)
 	int fontdir_len = 2;
 	char non_resident_name[200] = "";
 	int *file_lens, nread;
-	unsigned short first_res = 0x0050, pad, res;
+	unsigned short first_res = 100, pad, res;
 	struct _fnt_header *fnt_header;
 	char buf[0x1000];
 	IMAGE_OS2_HEADER NE_hdr;
