@@ -185,7 +185,7 @@ static int g_outputPoints = 0;
 
 static void usage(void)
 {
-	printf("Usage: fnt2bdf [-t] [-c charset] [-o basename] [input file]\n");
+	printf("Usage: fnt2bdf [-t] [-c charset] [-f basename] [input file]\n");
 	printf("  -c charset\tcharset name for OEM_CHARSET fonts\n");
 	printf("  -f basename\tbasic output filename\n");
 	printf("  -t \t\toutput files by point size instead of pixel height\n");
