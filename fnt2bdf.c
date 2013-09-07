@@ -368,8 +368,11 @@ static int dump_bdf(fnt_fontS *cpe_font_struct, unsigned char *file_buffer)
 
 		fprintf(fp, "STARTCHAR %d\n", ic);
 		fprintf(fp, "ENCODING %d\n", l_fchar);
+		/* Since dwith = swidth * (point_size / 1000) * (resolution_x / 72),
+		   we can approximate swidth using this computation */
 		fprintf(fp, "SWIDTH %d %d\n",
-		        cpe_font_struct->dfCharTable[ic].charWidth * 1000,
+		        (cpe_font_struct->dfCharTable[ic].charWidth * 1000 * 72) /
+		        ((unsigned int) cpe_font_struct->hdr.fi.dfPoints * cpe_font_struct->hdr.fi.dfHorizRes),
 		        0);
 
 		fprintf(fp, "DWIDTH %d %d\n",
