@@ -508,7 +508,9 @@ static int dump_bdf_hdr(FILE *fs, fnt_fontS *cpe_font_struct, unsigned char *fil
 		}
 		/* y extents */
 
-		fprintf(fs, "%d-%d-%d-%d-", l_cellheight, point_size,
+		fprintf(fs, "%d-%d-%d-%d-", l_cellheight -
+		        return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfInternalLeading),
+		        point_size,
 		        return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfHorizRes),
 		        return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfVertRes));
 
@@ -604,7 +606,8 @@ static int dump_bdf_hdr(FILE *fs, fnt_fontS *cpe_font_struct, unsigned char *fil
 	fputs("\"\n", fs);
 
 	fprintf(fs, "SLANT \"%c\"\n", cpe_font_struct->hdr.fi.dfItalic ? 'I' : 'R');
-	fprintf(fs, "PIXEL_SIZE %d\n", l_cellheight);
+	fprintf(fs, "PIXEL_SIZE %d\n", l_cellheight -
+	        return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfInternalLeading));
 	fprintf(fs, "POINT_SIZE %d\n", point_size);
 	fprintf(fs, "RESOLUTION_X %d\n", return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfHorizRes));
 	fprintf(fs, "RESOLUTION_Y %d\n", return_data_value(dfShort, &cpe_font_struct->hdr.fi.dfVertRes));
