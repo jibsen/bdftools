@@ -189,7 +189,7 @@ int main(int argc, char **argv)
 	char resident_name[200] = "";
 	int fontdir_len = 2;
 	char non_resident_name[200] = "";
-	int *file_lens = NULL,
+	int *file_lens = NULL;
 	int nread;
 	char **file_names = NULL;
 	char *fontstr_comment = NULL;
