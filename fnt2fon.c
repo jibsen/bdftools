@@ -163,7 +163,7 @@ static void exit_on_signal(int sig)
 
 static void usage(char **argv)
 {
-	fprintf(stderr, "%s fntfiles output.fon\n", argv[0]);
+	fprintf(stderr, "%s [-c fontres_comment] fntfiles output.fon\n", argv[0]);
 	return;
 }
 
@@ -189,7 +189,10 @@ int main(int argc, char **argv)
 	char resident_name[200] = "";
 	int fontdir_len = 2;
 	char non_resident_name[200] = "";
-	int *file_lens, nread;
+	int *file_lens = NULL,
+	int nread;
+	char **file_names = NULL;
+	char *fontstr_comment = NULL;
 	unsigned short first_res = 100, pad, res;
 	struct _fnt_header *fnt_header;
 	char buf[0x1000];
@@ -202,18 +205,42 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	num_files = argc - 2;
+	output_file = argv[argc - 1];
+
+	num_files = 0;
+	file_names = malloc(argc * sizeof(char *));
+
+	for (i = 1; i < argc - 1; ++i) {
+		if (argv[i][0] == '-' || argv[i][0] == '/') {
+			switch (argv[i][1]) {
+			case 'c':
+				if (i == argc - 2) {
+					usage(argv);
+					exit(1);
+				}
+				fontstr_comment = argv[++i];
+				break;
+			default:
+				usage(argv);
+				exit(1);
+			}
+		}
+		else {
+			file_names[num_files++] = argv[i];
+		}
+	}
+
 	file_lens = malloc(num_files * sizeof(int));
 	for (i = 0; i < num_files; i++) {
-		fp = fopen(argv[i + 1], "rb");
+		fp = fopen(file_names[i], "rb");
 		if (!fp) {
-			fprintf(stderr, "error: unable to open %s for reading: %s\n", argv[i + 1], strerror(errno));
+			fprintf(stderr, "error: unable to open %s for reading: %s\n", file_names[i], strerror(errno));
 			usage(argv);
 			exit(1);
 		}
 		fread(&ver, sizeof(short), 1, fp);
 		if (ver != 0x200 && ver != 0x300) {
-			fprintf(stderr, "error: invalid fnt file %s ver %d\n", argv[i + 1], ver);
+			fprintf(stderr, "error: invalid fnt file %s ver %d\n", file_names[i], ver);
 			exit(1);
 		}
 		fread(file_lens + i, sizeof(int), 1, fp);
@@ -256,9 +283,12 @@ int main(int argc, char **argv)
 		}
 	}
 
-	non_resident_name_len = strlen(non_resident_name) + 4;
+	if (fontstr_comment != NULL) {
+		sprintf(buf, " (%s)", fontstr_comment);
+		strcat(non_resident_name, buf);
+	}
 
-	output_file = argv[argc - 1];
+	non_resident_name_len = strlen(non_resident_name) + 4;
 
 	/* copy up to 8 uppercased characters from output name to resident_name */
 	for (i = 0; i < 8 && isalnum(output_file[i]); i++) {
@@ -383,7 +413,7 @@ int main(int argc, char **argv)
 	fwrite(&num_files, sizeof(num_files), 1, ofp);
 
 	for (res = first_res, i = 0; i < num_files; i++, res++) {
-		fp = fopen(argv[i + 1], "rb");
+		fp = fopen(file_names[i], "rb");
 
 		fwrite(&res, sizeof(res), 1, ofp);
 		fread(buf, 0x72, 1, fp);
@@ -411,7 +441,7 @@ int main(int argc, char **argv)
 	}
 
 	for (res = first_res, i = 0; i < num_files; i++, res++) {
-		fp = fopen(argv[i + 1], "rb");
+		fp = fopen(file_names[i], "rb");
 
 		while (1) {
 			nread = read(fileno(fp), buf, sizeof(buf));
@@ -431,6 +461,14 @@ int main(int argc, char **argv)
 	}
 	fclose(ofp);
 	output_file = NULL;
+
+	if (file_lens != NULL) {
+		free(file_lens);
+	}
+
+	if (file_names != NULL) {
+		free(file_names);
+	}
 
 	return 0;
 }
