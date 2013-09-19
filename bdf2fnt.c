@@ -216,7 +216,7 @@ int bdfencode(char *line, FILE *in, Font *fnt)
 	if (sscanf(line, "%d\n", &thischar) != 1) {
 		return 0;
 	}
-	if (thischar > 255) {
+	if (thischar > 255 || thischar < 0) {
 		return 0;
 	}
 	fnt->thischar = thischar;
